@@ -1,0 +1,39 @@
+body {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.pagination {
+  display: inline-block;
+  list-style: none;
+  a {
+    &:focus {
+      outline: none;
+    }
+  }
+  li {
+    display: inline-block;
+    padding: 3px 5px;
+    border: 1px solid #ddd;
+    margin: 0 5px;
+    cursor: pointer;
+    &.active {
+      background: #eee;
+    }
+  }
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid #eee;
+  th {
+    background: #eee;
+  }
+  td,
+  th {
+    padding: 5px;
+    border: 1px solid #eee;
+  }
+}

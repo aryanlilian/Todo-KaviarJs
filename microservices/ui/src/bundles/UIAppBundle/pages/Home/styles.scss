@@ -1,0 +1,33 @@
+.page-home {
+  text-align: center;
+
+  h1 {
+    color: #000;
+    margin-bottom: 32px;
+  }
+
+  ul {
+    list-style: none;
+    li {
+      margin-bottom: 16px;
+    }
+  }
+
+  .logo-wrapper {
+    min-height: 100px;
+    img {
+      height: 100px;
+    }
+  }
+
+  button {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 9px 16px;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 1px 5px 15px #ccc;
+    }
+  }
+}
