@@ -1,29 +1,59 @@
 import * as X from "@kaviar/x-bundle";
-import { TodosCollection } from "../../../collections/Todos/Todos.collection";
+import { Todo, TodosCollection } from "../../../collections/Todos/";
+import { TodosService } from "../../../services";
+
 
 export default {
   Query: [
     [],
     {
-      postsFindOne: [X.ToNovaOne(TodosCollection)],
-      postsFind: [X.ToNova(TodosCollection)],
-      postsCount: [X.ToCollectionCount(TodosCollection)],
+      todosFindOne: [X.CheckLoggedIn(), X.ToNovaOne(TodosCollection)],
+      todosFind: [
+        X.CheckLoggedIn(), 
+        X.ToNova(TodosCollection, 
+        (_, args, ctx, info) => {
+          return { 
+            filters: {
+              userId: ctx.userId
+            }
+          }
+        }
+      )],
+      todosCount: [X.CheckLoggedIn(), X.ToCollectionCount(TodosCollection)],
     },
   ],
   Mutation: [
     [],
     {
-      postsInsertOne: [
-        X.ToDocumentInsert(TodosCollection),
-        X.ToNovaByResultID(TodosCollection),
+      todosInsertOne: [
+        X.CheckLoggedIn(), 
+        async (_, args, ctx, info) => {
+          const container = ctx.container;
+          const todosCollection = container.get(TodosCollection) as TodosCollection;
+          const todosService = container.get(TodosService) as TodosService;
+          const todo: Todo = await todosService.createNewTodo(ctx.userId, args.todoData);
+          const todoInDb = todosCollection.insertOne(todo);
+          
+          return todoInDb;
+        }
       ],
-      postsUpdateOne: [
+      todosUpdateOne: [
+        X.CheckLoggedIn(),
         X.CheckDocumentExists(TodosCollection),
+        async (_, args, ctx, info) => {
+          const todosService = ctx.container.get(TodosService) as TodosService;
+          await todosService.isTodoUserAllowed(ctx.userId, args._id);
+        },
         X.ToDocumentUpdateByID(TodosCollection),
         X.ToNovaByResultID(TodosCollection),
       ],
-      postsDeleteOne: [
+      todosDeleteOne: [
+        X.CheckLoggedIn(),
         X.CheckDocumentExists(TodosCollection),
+        async (_, args, ctx, info) => {
+          const todosService = ctx.container.get(TodosService) as TodosService;
+          await todosService.isTodoUserAllowed(ctx.userId, args._id);
+        },
         X.ToDocumentDeleteByID(TodosCollection),
         X.ToNovaByResultID(TodosCollection),
       ],
