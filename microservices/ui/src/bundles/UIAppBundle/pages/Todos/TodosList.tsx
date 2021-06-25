@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useGuardian, use } from '@kaviar/x-ui';
 import { Layout, AddTodo, Todo, ITodo } from "../../components";
 import { TodosCollection } from '../../collections';
+import * as Routes from "../../routes";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss';
-import * as Routes from "../../routes";
 
 
 export const TodosPage = () => {
@@ -30,14 +30,14 @@ export const TodosPage = () => {
     const deleteTodo = (_id: any) => setTodos(prevTodos => prevTodos.filter(todo => todo._id !== _id));
 
     if (!isLoggedIn) {
-        router.go(Routes.HOME_PAGE);
+        router.go(Routes.LOGIN);
     }
 
     return (
         <Layout>
             <div className="center-column">
                 <AddTodo onSetTodo={setTodos} />
-                { todos.map(todo => <Todo id={todo._id} title={todo.title} onDelete={deleteTodo} />) }
+                { todos.map(todo => <Todo _id={todo._id} title={todo.title} onDelete={deleteTodo} completed={todo.completed} /> )}
             </div>
         </Layout>
     );

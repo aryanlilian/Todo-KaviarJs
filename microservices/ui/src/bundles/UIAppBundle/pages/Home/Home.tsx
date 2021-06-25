@@ -1,11 +1,14 @@
 import { useRouter } from "@kaviar/x-ui";
 import React from "react";
 import { Link } from "react-router-dom";
+import { useGuardian } from "@kaviar/x-ui";
 import { Layout } from "../../components";
 import * as Routes from "../../routes";
 
 export const HomePage = () => {
   const router = useRouter();
+  const guardian = useGuardian();
+  const { isLoggedIn } = guardian.state;
 
   return (
     <Layout>
@@ -42,7 +45,7 @@ export const HomePage = () => {
                 <Link to={router.path(Routes.TODOS_PAGE)}>Todos</Link>
               </td>
               <td>
-                Here is the Todos list page!
+                {isLoggedIn ?  "Here is the Todos list page!" : "You need to be logged in to access the Todos!"}
               </td>
             </tr>
             <tr>
