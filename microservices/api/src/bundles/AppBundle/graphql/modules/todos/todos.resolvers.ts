@@ -1,5 +1,5 @@
 import * as X from "@kaviar/x-bundle";
-import { Todo, TodosCollection } from "../../../collections/Todos/";
+import { Todo, TodosCollection } from "../../../collections";
 import { TodosService } from "../../../services";
 
 
@@ -10,15 +10,14 @@ export default {
       todosFindOne: [X.CheckLoggedIn(), X.ToNovaOne(TodosCollection)],
       todosFind: [
         X.CheckLoggedIn(), 
-        X.ToNova(TodosCollection, 
-        (_, args, ctx, info) => {
-          return { 
+        X.ToNova(TodosCollection, (_, _2, ctx, _3) => {
+          return {
             filters: {
-              userId: ctx.userId
+              userId: ctx.userId,
             }
           }
-        }
-      )],
+        })
+      ],
       todosCount: [X.CheckLoggedIn(), X.ToCollectionCount(TodosCollection)],
     },
   ],
@@ -31,9 +30,10 @@ export default {
           const container = ctx.container;
           const todosCollection = container.get(TodosCollection) as TodosCollection;
           const todosService = container.get(TodosService) as TodosService;
-          const todo: Todo = await todosService.createNewTodo(ctx.userId, args.todoData);
-          const todoInDb = todosCollection.insertOne(todo);
-          
+          const document: Partial<Todo> = args.document;
+          const todo: Todo = await todosService.createNewTodo(ctx.userId, document);
+          const todoInDb = (await todosCollection.insertOne(todo)).ops[0];
+      
           return todoInDb;
         }
       ],

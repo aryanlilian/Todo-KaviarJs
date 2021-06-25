@@ -21,13 +21,6 @@ export class Todo {
   @Is(an.date())
   updatedAt?: Date;
 
-  @Type(() => User)
-  user: User;
-  userId: ObjectId;
-
   @Is(a.objectId().required())
-  createdBy: any;
-
-  @Is(an.objectId())
-  updatedBy?: any;
+  userId: any;
 }

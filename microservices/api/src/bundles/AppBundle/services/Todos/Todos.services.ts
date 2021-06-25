@@ -10,9 +10,9 @@ export class TodosService {
 
     todosCollection = this.container.get(TodosCollection);
 
-    async existTodo(filters: FilterQuery<Todo>): Promise<boolean> {
+    async existTodo(filters: FilterQuery<Todo>) {
         const todo = await this.todosCollection.find(filters);
-        return todo ? true : false;
+        return todo;
     }
 
     async isTodoUserAllowed(userId: ObjectId, todoId: ObjectId) {
@@ -38,7 +38,7 @@ export class TodosService {
     //     }
     // }
 
-    async createNewTodo(userId: string, data: any) {
+    async createNewTodo(userId: string, data: Partial <Todo>) {
         return {
             ...data,
             userId: new ObjectId(userId),

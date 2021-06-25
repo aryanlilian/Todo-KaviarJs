@@ -6,7 +6,7 @@ export default /* GraphQL */ `
   }
 
   type Mutation {
-    todosInsertOne(todoData: EJSON!): Todo
+    todosInsertOne(document: EJSON!): Todo
     todosUpdateOne(_id: ObjectId!, modifier: EJSON!): Todo!
     todosDeleteOne(_id: ObjectId!): Boolean
   }
