@@ -27,6 +27,8 @@ export const TodosPage = () => {
         }).catch(error => console.log(error));
     }, []);
 
+    const deleteTodo = (_id: any) => setTodos(prevTodos => prevTodos.filter(todo => todo._id !== _id));
+
     if (!isLoggedIn) {
         router.go(Routes.HOME_PAGE);
     }
@@ -35,7 +37,7 @@ export const TodosPage = () => {
         <Layout>
             <div className="center-column">
                 <AddTodo onSetTodo={setTodos} />
-                { todos.map(todo => <Todo id={todo._id} title={todo.title} />) }
+                { todos.map(todo => <Todo id={todo._id} title={todo.title} onDelete={deleteTodo} />) }
             </div>
         </Layout>
     );
