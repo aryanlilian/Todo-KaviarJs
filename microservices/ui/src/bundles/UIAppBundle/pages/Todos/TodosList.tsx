@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useGuardian, use } from '@kaviar/x-ui';
 import { Layout, AddTodo, Todo, ITodo } from "../../components";
 import { TodosCollection } from '../../collections';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import * as Routes from "../../routes";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss';
@@ -29,6 +30,16 @@ export const TodosPage = () => {
 
     const deleteTodo = (_id: any) => setTodos(prevTodos => prevTodos.filter(todo => todo._id !== _id));
 
+    const handleOnDragEnd = result => {
+        if (!result.destination) return;
+
+        const items = Array.from(todos);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+
+        setTodos(items);
+    }
+
     if (!isLoggedIn) {
         router.go(Routes.LOGIN);
     }
@@ -37,7 +48,26 @@ export const TodosPage = () => {
         <Layout>
             <div className="center-column">
                 <AddTodo onSetTodo={setTodos} />
-                { todos.map(todo => <Todo _id={todo._id} title={todo.title} onDelete={deleteTodo} completed={todo.completed} /> )}
+                <DragDropContext onDragEnd={handleOnDragEnd}>
+                    <Droppable droppableId="characters">
+                        {(provided) => (
+                            <ul className="characters" {...provided.droppableProps} ref={provided.innerRef}>
+                                { todos.map(({ _id, title, completed }, index) => {
+                                    return (
+                                        <Draggable key={`${_id}`} draggableId={`${_id}`} index={index}>
+                                            {(provided) => (
+                                                <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                    <Todo _id={_id} title={title} onDelete={deleteTodo} completed={completed} />
+                                                </li>
+                                            )}
+                                        </Draggable>
+                                    );
+                                })}
+                                {provided.placeholder}
+                            </ul>
+                        )}
+                    </Droppable>
+                </DragDropContext>
             </div>
         </Layout>
     );
