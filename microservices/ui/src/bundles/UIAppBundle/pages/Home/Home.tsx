@@ -42,7 +42,7 @@ export const HomePage = () => {
             </tr>
             <tr>
               <td>
-                <Link to={router.path(Routes.TODOS_PAGE)}>Todos</Link>
+                <Link to={router.path(Routes.TODOS_LIST)}>Todos</Link>
               </td>
               <td>
                 {isLoggedIn ?  "Here is the Todos list page!" : "You need to be logged in to access the Todos!"}

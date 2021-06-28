@@ -42,7 +42,7 @@ export const AddTodo = ({ onSetTodo } : onSetTodoProps) => {
             <form onSubmit={onSubmit}>
                 <input type="text" name="title" ref={register( {required: true} )} placeholder="Add a todo..." />
                 {errors.title &&  <div className="alert alert-danger">This field is required!</div>}
-                <input type="submit" value="Add task" className="btn btn-info submit"/>
+                <input type="submit" value="Add todo" className="btn btn-info submit"/>
             </form>
         </div>
         

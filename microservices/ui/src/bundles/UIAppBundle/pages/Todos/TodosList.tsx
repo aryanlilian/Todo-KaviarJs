@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss';
 
 
-export const TodosPage = () => {
+export const TodosList = () => {
     const router = useRouter();
     const guardian = useGuardian();
     const [todos, setTodos] = useState<ITodo[]>([]);
@@ -23,7 +23,6 @@ export const TodosPage = () => {
             completed: 1
         }).then(todos => {
             const data = todos as unknown as ITodo[];
-            console.log(data);
             setTodos(data);
         }).catch(error => console.log(error));
     }, []);

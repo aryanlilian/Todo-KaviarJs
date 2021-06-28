@@ -7,10 +7,13 @@ export default {
   Query: [
     [],
     {
-      todosFindOne: [X.CheckLoggedIn(), X.ToNovaOne(TodosCollection)],
+      todosFindOne: [
+        X.CheckLoggedIn(), 
+        X.ToNovaOne(TodosCollection)
+      ],
       todosFind: [
         X.CheckLoggedIn(), 
-        X.ToNova(TodosCollection, (_, _2, ctx, _3) => {
+        X.ToNova(TodosCollection, (_, args, ctx, info) => {
           return {
             filters: {
               userId: ctx.userId,
