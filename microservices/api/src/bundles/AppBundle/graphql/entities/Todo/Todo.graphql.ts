@@ -6,5 +6,6 @@ export default /* GraphQL */ `
     createdAt: Date!
     updatedAt: Date
     userId: ObjectId!
+    order: Int!
   }
 `;

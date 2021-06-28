@@ -9,7 +9,7 @@ export interface ITodoProps {
     _id: any,
     title: string,
     onDelete: any,
-    completed: boolean
+    completed: boolean,
 }
 
 export const Todo: React.FC<ITodoProps> = ({ _id, title, onDelete, completed }) => {

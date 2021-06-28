@@ -20,10 +20,13 @@ export const TodosList = () => {
         {
             _id: 1,
             title: 1,
-            completed: 1
+            completed: 1,
+            order: 1
         }).then(todos => {
             const data = todos as unknown as ITodo[];
-            setTodos(data);
+            console.log(data);
+            setTodos(data.sort((firstTodo, secondTodo) => firstTodo.order - secondTodo.order));
+            console.log(data);
         }).catch(error => console.log(error));
     }, []);
 
@@ -35,6 +38,14 @@ export const TodosList = () => {
         const items = Array.from(todos);
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
+
+        items.forEach((item, index) => {
+            todosCollection.updateOne(item._id, {
+                $set: {
+                    order: index
+                }
+            })
+        })
 
         setTodos(items);
     }

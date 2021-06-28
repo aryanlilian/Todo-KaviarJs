@@ -5,7 +5,8 @@ export interface ITodo {
     _id: any
     title: string
     completed: boolean
-    userId: any 
+    userId: any
+    order: number
 }
 
 export class TodosCollection extends Collection<ITodo> {

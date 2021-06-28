@@ -10,6 +10,10 @@ export class TodosService {
 
     todosCollection = this.container.get(TodosCollection);
 
+    async countTodos(filters?: FilterQuery<Todo>) {
+        return await this.todosCollection.find(filters).count();
+    }
+
     async existTodo(filters: FilterQuery<Todo>) {
         const todo = await this.todosCollection.find(filters);
         return todo;
@@ -27,21 +31,12 @@ export class TodosService {
         }
     }
 
-    // async todoAlreadyExists(title: string) {
-    //     const filters: FilterQuery<Todo> = {
-    //         title
-    //     };
-
-    //     const todoExist = this.existTodo(filters);
-    //     if (todoExist) {
-    //         throw new Error('This todo already exists!');
-    //     }
-    // }
-
     async createNewTodo(userId: string, data: Partial <Todo>) {
+        const generatedUserId= new ObjectId(userId);
         return {
             ...data,
-            userId: new ObjectId(userId),
+            userId: generatedUserId,
+            order: await this.countTodos({ userId: generatedUserId}),
             completed: false
         } as Todo;
     }

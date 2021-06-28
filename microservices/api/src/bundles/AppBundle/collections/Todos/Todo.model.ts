@@ -1,8 +1,4 @@
-import { ObjectId } from "@kaviar/ejson";
 import { Schema, Is, a, an } from "@kaviar/validator-bundle";
-import { Type } from "class-transformer";
-import { User } from "../Users/User.model";
-import { TodosCollection } from "./Todos.collection";
 
 @Schema()
 export class Todo {
@@ -23,4 +19,7 @@ export class Todo {
 
   @Is(a.objectId().required())
   userId: any;
+
+  @Is(a.number().required())
+  order: number;
 }

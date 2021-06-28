@@ -9,6 +9,7 @@ export interface ITodo {
     _id: any
     title: string
     completed: boolean
+    order: number
 }
 
 export interface onSetTodoProps {
