@@ -9,6 +9,10 @@ export default {
     {
       todosFindOne: [
         X.CheckLoggedIn(), 
+        async (_, args, ctx, info) => {
+          const todosService = ctx.container.get(TodosService) as TodosService;
+          await todosService.isTodoUserAllowed(ctx.userId, args._id);
+        },
         X.ToNovaOne(TodosCollection)
       ],
       todosFind: [

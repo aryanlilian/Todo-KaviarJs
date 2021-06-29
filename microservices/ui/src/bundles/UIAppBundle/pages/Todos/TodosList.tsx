@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss';
 
 
-export const TodosList = () => {
+export const TodosList: React.FC = () => {
     const router = useRouter();
     const guardian = useGuardian();
     const [todos, setTodos] = useState<ITodo[]>([]);
@@ -30,7 +30,7 @@ export const TodosList = () => {
         }).catch(error => console.log(error));
     }, []);
 
-    const deleteTodo = (_id: any) => setTodos(prevTodos => prevTodos.filter(todo => todo._id !== _id));
+    const deleteTodo = (_id: string) => setTodos(prevTodos => prevTodos.filter(todo => todo._id !== _id));
 
     const handleOnDragEnd = result => {
         if (!result.destination) return;

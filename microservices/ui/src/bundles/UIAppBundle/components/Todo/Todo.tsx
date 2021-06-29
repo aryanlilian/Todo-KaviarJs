@@ -6,9 +6,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.scss';
 
 export interface ITodoProps {
-    _id: any,
+    _id: string,
     title: string,
-    onDelete: any,
+    onDelete: (_id: string) => void,
     completed: boolean,
 }
 
